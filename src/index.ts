@@ -1,3 +1,5 @@
 import { Game } from './game';
 
-(new Game()).start();
+(async () => {
+    await (new Game()).start();
+})();

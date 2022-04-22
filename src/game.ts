@@ -1,27 +1,26 @@
 import * as T from 'three';
+import { DemoScene } from './demo';
 
 export class Game {
-    public start() {
-        const scene = new T.Scene();
-        const camera = new T.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    renderer: T.Renderer;
 
-        const renderer = new T.WebGLRenderer();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
+    public constructor() {
+        this.renderer = new T.WebGLRenderer({ antialias: true });
+        this.renderer.setSize(window.innerWidth, window.innerHeight);
+        
+        document.body.appendChild(this.renderer.domElement);
+    }
 
-        const geometry = new T.BoxGeometry();
-        const material = new T.MeshBasicMaterial({ color: 0x00ff00 });
-        const cube = new T.Mesh(geometry, material);
-        scene.add(cube);
-
-        camera.position.z = 5;
+    public async start(): Promise<void> {
+        const demoScene = new DemoScene();
+        const [scene, camera] = await demoScene.load();
+        const self = this;
 
         function animate() {
             requestAnimationFrame(animate);
-            renderer.render(scene, camera);
 
-            cube.rotation.x += 0.01;
-            cube.rotation.y += 0.01;
+            self.renderer.render(scene, camera);
+            demoScene.update();
         }
 
         animate();
