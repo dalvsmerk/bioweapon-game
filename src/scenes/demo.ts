@@ -1,5 +1,6 @@
 import * as T from 'three';
-import { Core } from './core';
+
+import { Core } from '../core';
 
 export class DemoScene implements Core.Scene {
     scene: T.Scene;
@@ -16,7 +17,7 @@ export class DemoScene implements Core.Scene {
         this.angle = 0;
     }
 
-    public async load(): Promise<[T.Scene, T.Camera]> {
+    public async load(): Promise<void> {
         const sphereGeometry = new T.SphereGeometry(0.05);
         const sphereMaterial = new T.MeshPhongMaterial({ color: 0xffff00 });
         const sphere = new T.Mesh(sphereGeometry, sphereMaterial);
@@ -26,7 +27,7 @@ export class DemoScene implements Core.Scene {
         this.light.position.set(2, -2, 0);
         this.scene.add(this.light);
 
-        const light2 = new T.PointLight(0xffffff, 0.7, 1000);
+        const light2 = new T.PointLight(0xffffff, 0.5, 1000);
         light2.position.set(-2, -2, 0);
         this.scene.add(light2);
 
@@ -48,10 +49,12 @@ export class DemoScene implements Core.Scene {
         this.cameraPivot.add(this.camera);
         cube.position.set(0, 0, 0);
 
-        this.camera.position.set(5, 0, 0);
+        this.camera.position.set(5, -3, 0);
         this.camera.lookAt(this.cameraPivot.position);
+    }
 
-        return [this.scene, this.camera];
+    public render(renderer: T.Renderer) {
+        renderer.render(this.scene, this.camera);
     }
 
     public update(): void {
@@ -65,5 +68,10 @@ export class DemoScene implements Core.Scene {
         const Y_AXIS = new T.Vector3(0, 1, 0);
         
         this.cameraPivot.rotateOnAxis(Y_AXIS, 0.005);
+    }
+
+    public dispose(): void {
+        // TODO: Dispose all the 3D objects, disposed some for an example
+        this.light.dispose();
     }
 }
