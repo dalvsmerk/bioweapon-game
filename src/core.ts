@@ -13,12 +13,12 @@ export namespace Core {
         dispose(): void;
     }
 
-    interface OptionablyRenderable {
+    interface Renderable {
         // Should be implemented only by root scenes
         render?(renderer: T.Renderer): void;
     }
 
-    export interface Scene extends SceneLoadable, Updatable, Disposable, OptionablyRenderable {
+    export interface Scene extends SceneLoadable, Updatable, Disposable, Renderable {
         scene: T.Scene;
         camera: T.Camera;
     }
