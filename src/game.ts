@@ -33,7 +33,7 @@ export class Game {
         function animate() {
             requestAnimationFrame(animate);
 
-            self.sceneManager.render(self.renderer);
+            self.sceneManager.render();
             self.sceneManager.update();
         }
 

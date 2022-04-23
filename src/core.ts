@@ -55,9 +55,9 @@ export namespace Core {
             this.currentScene?.update();
         }
 
-        public render(renderer: T.Renderer): void {
+        public render(): void {
             if (this.currentScene?.render) {
-                this.currentScene?.render(renderer);
+                this.currentScene?.render(this.renderer);
             }
         }
 
